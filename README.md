@@ -24,3 +24,4 @@ To run the server run `node index --server`
 
 ## Misc
 - [List of chess openings wiki](https://en.wikipedia.org/wiki/List_of_chess_openings)
+- [NodeJS app examples](https://thinkmobiles.com/blog/node-js-app-examples/)
