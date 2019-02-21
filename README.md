@@ -4,7 +4,7 @@
 To run the server run `node index --server`
 
 ## Plan
-### Priority task
+### Priority tasks
 - API test
 - API - Login / create account (+social)
 - Add prettier package (and probably husky also necessary)
@@ -18,8 +18,8 @@ To run the server run `node index --server`
 - API - Remove line from study queue (remove from users queue)
 - API - Create learning session (create a session based on the users study queue)
 
-### Bigger task
-- put lines to db and create a API which returns all of them in an array
+### Bigger tasks
+- Put lines to db and create a API which returns all of them in an array
 - Paginate afterwards
 
 ## Misc
