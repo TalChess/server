@@ -1,6 +1,5 @@
 const fs = require('fs');
 const LineByLineReader = require('line-by-line');
-const pgnParser = require('pgn-parser');
 
 const quotesRegex = /(?<=\")(.*?)(?=\")/;
 
@@ -19,37 +18,35 @@ function parseOpening(openingArr) {
 }
 
 function main() {
-  pgnParser((err, parser) => {
-    const lr = new LineByLineReader(__dirname + '/../../data/eco.pgn');
+  const lr = new LineByLineReader(__dirname + '/../../data/eco.pgn');
+  
+  let openingArr = [];
+  let addingMoves = false;
+  
+  lr.on('line', (line) => {
+    lr.pause();
     
-    let openingArr = [];
-    let addingMoves = false;
+    if (line) {
+      if (addingMoves)
+        openingArr[openingArr.length-1] += line
+      else
+        openingArr.push(line);
+    }
     
-    lr.on('line', (line) => {
-      lr.pause();
-      
-      if (line) {
-        if (addingMoves)
-          openingArr[openingArr.length-1] += line
-        else
-          openingArr.push(line);
-      }
-      
-      if (line.indexOf('1. ') > -1)
-        addingMoves = true;
+    if (line.indexOf('1. ') > -1)
+      addingMoves = true;
 
-      if (addingMoves && line.length === 0) {
-        const opening = parseOpening(openingArr);
-        
-        // TODO upsert opening to DB
-        console.log(opening)
-        // _______________________
-        
-        openingArr = [];
-        addingMoves = false;                        
-      }
-      lr.resume();
-    });    
+    if (addingMoves && line.length === 0) {
+      const opening = parseOpening(openingArr);
+      
+      // TODO upsert opening to DB
+      console.log(opening)
+      // _______________________
+      
+      openingArr = [];
+      addingMoves = false;                        
+    }
+    lr.resume();
   });
 }
 
